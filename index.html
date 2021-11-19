@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+
+    <title>Qr Code</title>
+  </head>
+  <style>
+    body {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+    #alan a{
+        width: 100%;
+        height: auto;
+        background-color: green;
+        display: block;
+        border-radius: 10px;
+        margin-top: 20px;
+        text-align: center;
+        color: #fff;
+        padding: 5px;
+    }
+    #qrcode{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+  </style>
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col-6">
+          <div class="form-group">
+            <label for="exampleInputEmail1">Url</label>
+            <input
+              id="url"
+              type="text"
+              class="form-control"
+              id="exampleInputEmail1"
+              placeholder="URL"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="exampleInputEmail1">width</label>
+            <input
+              id="width"
+              type="text"
+              class="form-control"
+              id="exampleInputEmail1"
+              placeholder="width (Optional)"
+              required
+            />
+          </div>
+          <button id="button" type="button" class="btn btn-primary">
+            Oluştur
+          </button>
+        </div>
+        <div class="col-6" id="alan"><div id="qrcode"></div></div>
+      </div>
+    </div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+    <script src="./qrcode.js"></script>
+    <script type="text/javascript">
+      let button = document.getElementById("button");
+      button.addEventListener("click", () => {
+        let width = document.getElementById("width").value;
+        if(width.value == undefined ){ width = 256;}
+        let url = document.getElementById("url").value;
+        var qrcode = new QRCode("qrcode", {
+          width: width,
+          height: width,
+          correctLevel: QRCode.CorrectLevel.H,
+        });
+        qrcode.makeCode(url)
+        var canvas = document.getElementsByTagName("canvas")[0];
+        console.log(canvas);
+        // Convert the canvas to data
+        var image = canvas.toDataURL();
+        // Create a link
+        var aDownloadLink = document.createElement("a");
+        // Add the name of the file to the link
+        aDownloadLink.innerHTML="İndir"
+        aDownloadLink.download = "QRCode.png";
+        // Attach the data to the link
+        let alan = document.getElementById('alan');
+        alan.append(aDownloadLink);
+        aDownloadLink.href = image;
+        // Get the code to click the download link
+        //aDownloadLink.click();
+      });
+    </script>
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
